@@ -29,3 +29,4 @@ gradle/
 build/
 /gradlew
 /gradlew.bat
+.properties

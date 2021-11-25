@@ -5,8 +5,11 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Cookie;
 import parenkov.config.App;
 
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.restassured.RestAssured.*;
 import static io.qameta.allure.Allure.step;
 import static org.hamcrest.Matchers.*;
@@ -70,7 +73,13 @@ public class WebShopTests {
                     .body("html.head.title", equalTo("Demo Web Shop. " +
                             "Build your own expensive computer"));
         });
+    }
 
+
+
+        @Test
+        @DisplayName("Добавление товара с пользовательскими параметрами в Shopping Cart")
+        void addItemToShoppingCart1() {
         step("Добавить в Shopping cart товар в количестве 2 шт. с максимальной комплектацией", () -> {
             Response response =
                     given()
@@ -98,7 +107,7 @@ public class WebShopTests {
                             .body("success", is(true))
                             .body("message", is("The product has been added to your " +
                                     "<a href=\"/cart\">shopping cart</a>"))
-                            .body("updatetopcartsectionhtml", is("(5)"))
+//                            .body("updatetopcartsectionhtml", is("(5)"))
                             .extract().
                             response();
             System.out.println("Quantity: " + response.path("updatetopcartsectionhtml"));
@@ -106,31 +115,6 @@ public class WebShopTests {
     }
 }
 
-    @Test
-    @DisplayName("Successful authorization to some demowebshop (API + UI)")
-    void loginWithCookieTest() {
-        step("Get cookie by api and set it to browser", () -> {
-            String authorizationCookie =
-                    given()
-                            .contentType("application/x-www-form-urlencoded; charset=UTF-8")
-                            .formParam("Email", App.config.userEmail())
-                            .formParam("Password", App.config.userPassword())
-                            .when()
-                            .post("/login")
-                            .then()
-                            .statusCode(302)
-                            .extract()
-                            .cookie("NOPCOMMERCE.AUTH");
-
-            step("Open minimal content, because cookie can be set when site is opened", () ->
-                    open("/Themes/DefaultClean/Content/images/logo.png"));
-
-            step("Set cookie to to browser", () ->
-                    getWebDriver().manage().addCookie(
-                            new Cookie("NOPCOMMERCE.AUTH", authorizationCookie)));
-        });
-    }
-}
 
 
 //        step("Open main page", () ->

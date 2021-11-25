@@ -50,6 +50,30 @@ public class WebShopTests {
         System.out.println(response);
     }
 
+/*
+Preconditions: открыта главная страница http://demowebshop.tricentis.com/
+1. Перейти в раздел Computers -> Desktops
+2. Выбрать значение "Over 1200.00" для фильтра по цене
+3. Перейти на страницу компьютера с ценой 1800
+4. Выбрать максимальные характеристики компьютера:
+    - Processor - Fast;
+    - RAM - 8GB;
+    - HDD - 400 GB;
+    - Software - все чек-боксы;
+5. Выбрать количесто - 2
+6. Нажать Add to cart
+7. Перейти в Shopping cart
+8. Проверить наличие товара в Shopping cart
+9. Удалить товар из Shopping cart:
+    - отметить чек-бокс Remove;
+    - нажать Update shopping cart
+10. Проверить отсутствие товара в Shopping cart
+ */
+
+
+
+
+
 
     @Test
     @DisplayName("Successful authorization to some demowebshop (API + UI)")

@@ -16,7 +16,9 @@ dependencies {
             "io.qameta.allure:allure-rest-assured:2.16.1",
             "org.hamcrest:hamcrest:2.2"
     )
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testRuntimeOnly("org.slf4j:slf4j-simple:1.7.32",
+            "org.junit.jupiter:junit-jupiter-engine:5.8.1"
+    )
 }
 
 tasks.withType(JavaCompile) {

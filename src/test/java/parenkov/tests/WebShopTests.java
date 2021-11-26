@@ -13,7 +13,6 @@ import parenkov.config.App;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.is;
@@ -53,7 +52,6 @@ public class WebShopTests {
     @Test
     @DisplayName("Добавление товара в Shopping Cart")
     void addItemToShoppingCart() {
-        step("Добавить товар в Shopping cart", () -> {
             Response response =
                     given()
                             .contentType("application/x-www-form-urlencoded; charset=UTF-8")
@@ -83,7 +81,6 @@ public class WebShopTests {
             open("/cart");
             $(".cart-item-row").shouldBe(Condition.visible);
             $(".product-name").shouldHave(Condition.text("Build your own expensive computer"));
-        });
     }
 
     @Test

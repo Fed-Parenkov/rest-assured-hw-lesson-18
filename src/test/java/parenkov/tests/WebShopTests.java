@@ -23,6 +23,7 @@ public class WebShopTests {
     static void testConfiguration() {
         RestAssured.baseURI = App.config.apiUrl();
         Configuration.baseUrl = App.config.webUrl();
+        Configuration.startMaximized = true;
     }
 
     @Test
@@ -52,35 +53,36 @@ public class WebShopTests {
     @Test
     @DisplayName("Добавление товара в Shopping Cart")
     void addItemToShoppingCart() {
-            Response response =
-                    given()
-                            .contentType("application/x-www-form-urlencoded; charset=UTF-8")
-                            .body("product_attribute_74_5_26=82" +
-                                    "&product_attribute_74_6_27=85" +
-                                    "&product_attribute_74_3_28=87" +
-                                    "&product_attribute_74_8_29=88" +
-                                    "&product_attribute_74_8_29=89" +
-                                    "&product_attribute_74_8_29=90" +
-                                    "&addtocart_74.EnteredQuantity=2")
-                            .cookie("Nop.customer=69589107-6373-41bd-891d-47fb44277adc;")
-                            .when()
-                            .post("/addproducttocart/details/74/1")
-                            .then()
-                            .statusCode(200)
-                            .body("success", is(true))
-                            .body("message", is("The product has been added to your " +
-                                    "<a href=\"/cart\">shopping cart</a>"))
-                            .extract().
-                            response();
-            System.out.println("Quantity: " + response.path("updatetopcartsectionhtml"));
+        Response response =
+                given()
+                        .contentType("application/x-www-form-urlencoded; charset=UTF-8")
+                        .body("product_attribute_74_5_26=82" +
+                                "&product_attribute_74_6_27=85" +
+                                "&product_attribute_74_3_28=87" +
+                                "&product_attribute_74_8_29=88" +
+                                "&product_attribute_74_8_29=89" +
+                                "&product_attribute_74_8_29=90" +
+                                "&addtocart_74.EnteredQuantity=2")
+                        .cookie("Nop.customer=69589107-6373-41bd-891d-47fb44277adc;")
+                        .when()
+                        .post("/addproducttocart/details/74/1")
+                        .then()
+                        .statusCode(200)
+                        .body("success", is(true))
+                        .body("message", is("The product has been added to your " +
+                                "<a href=\"/cart\">shopping cart</a>"))
+                        .extract().
+                        response();
+        System.out.println("Quantity: " + response.path("updatetopcartsectionhtml"));
+        System.out.println(response.asString());
 
-            open("/Themes/DefaultClean/Content/images/logo.png");
-            getWebDriver().manage().addCookie(
-                    new Cookie("Nop.customer", "69589107-6373-41bd-891d-47fb44277adc"));
+        open("/Themes/DefaultClean/Content/images/logo.png");
+        getWebDriver().manage().addCookie(
+                new Cookie("Nop.customer", "69589107-6373-41bd-891d-47fb44277adc"));
 
-            open("/cart");
-            $(".cart-item-row").shouldBe(Condition.visible);
-            $(".product-name").shouldHave(Condition.text("Build your own expensive computer"));
+        open("/cart");
+        $(".cart-item-row").shouldBe(Condition.visible);
+        $(".product-name").shouldHave(Condition.text("Build your own expensive computer"));
     }
 
     @Test
@@ -105,3 +107,4 @@ public class WebShopTests {
                 "sent to the store owner."));
     }
 }
+

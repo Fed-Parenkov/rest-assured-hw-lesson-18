@@ -97,14 +97,6 @@ public class WebShopTests {
                 .post("/contactus")
                 .then()
                 .statusCode(200);
-
-        open("/Themes/DefaultClean/Content/images/logo.png");
-        getWebDriver().manage().addCookie(
-                new Cookie("Nop.customer", "69589107-6373-41bd-891d-47fb44277adc"));
-
-        open("/contactus");
-        $(".result").shouldHave(Condition.text("Your enquiry has been successfully " +
-                "sent to the store owner."));
     }
 }
 

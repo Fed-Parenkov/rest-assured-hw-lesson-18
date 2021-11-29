@@ -1,34 +1,25 @@
 package parenkov.tests;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
-import parenkov.config.App;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.is;
 
-public class WebShopTests {
-
-    @BeforeAll
-    static void testConfiguration() {
-        RestAssured.baseURI = App.config.apiUrl();
-        Configuration.baseUrl = App.config.webUrl();
-        Configuration.startMaximized = true;
-    }
+public class WebShopTests extends TestBase {
 
     @Test
-    @DisplayName("Регистрация")
+    @DisplayName("User registration")
     void registration() {
+        step("Register user by API", () -> {
         given()
                 .contentType("application/x-www-form-urlencoded")
                 .body("__RequestVerificationToken=yharMk0UzLqakit" +
@@ -45,14 +36,18 @@ public class WebShopTests {
         get("/registerresult/1")
                 .then()
                 .statusCode(200);
+        });
 
+        step("Check that registration successed by UI", () -> {
         open("/registerresult/1");
         $(".result").shouldHave(Condition.text("Your registration completed"));
+        });
     }
 
     @Test
-    @DisplayName("Добавление товара в Shopping Cart")
+    @DisplayName("Adding an item to the Shopping Cart")
     void addItemToShoppingCart() {
+        step("Add an item with custom specs to the Shopping Cart by API", () -> {
         Response response =
                 given()
                         .contentType("application/x-www-form-urlencoded; charset=UTF-8")
@@ -75,19 +70,25 @@ public class WebShopTests {
                         response();
         System.out.println("Quantity: " + response.path("updatetopcartsectionhtml"));
         System.out.println(response.asString());
+        });
 
+        step("Set cookies to browser", () -> {
         open("/Themes/DefaultClean/Content/images/logo.png");
         getWebDriver().manage().addCookie(
                 new Cookie("Nop.customer", "69589107-6373-41bd-891d-47fb44277adc"));
+        });
 
+        step("Check that item has been added to Shopping Cart by UI", () -> {
         open("/cart");
         $(".cart-item-row").shouldBe(Condition.visible);
         $(".product-name").shouldHave(Condition.text("Build your own expensive computer"));
+        });
     }
 
     @Test
-    @DisplayName("Отправка сообщения через форму Contact Us")
+    @DisplayName("Sending feedback by 'Contact Us' form")
     void leaveFeedback() {
+        step("Fill the 'Contact Us' form and send feedback by API", () -> {
         given()
                 .contentType("application/x-www-form-urlencoded")
                 .body("FullName=Alex+Qwerty&Email=qwerty%40www.co" +
@@ -97,6 +98,12 @@ public class WebShopTests {
                 .post("/contactus")
                 .then()
                 .statusCode(200);
+        });
     }
 }
+
+
+
+
+
 

@@ -11,7 +11,9 @@ def junitVersion = "5.8.1",
     allureVersion = "2.16.1",
     selenideVersion = "5.24.4",
     restAssuredVersion = "4.4.0",
-    assertjVersion = "3.21.0"
+    assertjVersion = "3.21.0",
+    ownerVersion = "1.0.12",
+    slf4jVersion = "1.7.32"
 
 allure {
     version = allureVersion
@@ -27,12 +29,16 @@ dependencies {
     testImplementation(
             "io.rest-assured:rest-assured:$restAssuredVersion",
             "com.codeborne:selenide:$selenideVersion",
+            "org.aeonbits.owner:owner:$ownerVersion",
             "io.rest-assured:json-schema-validator:$restAssuredVersion",
             "io.qameta.allure:allure-rest-assured:$allureVersion",
             "org.assertj:assertj-core:$assertjVersion",
             "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     )
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testRuntimeOnly(
+            "org.slf4j:slf4j-simple:$slf4jVersion",
+            "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    )
 }
 
 tasks.withType(JavaCompile) {

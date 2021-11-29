@@ -20,10 +20,6 @@ public class WebShopTests extends TestBase {
     void registration() {
         step("Register user by API", () -> {
             given()
-                    .log().method()
-                    .log().uri()
-                    .log().headers()
-                    .log().body()
                     .contentType("application/x-www-form-urlencoded")
                     .body("__RequestVerificationToken=yharMk0UzLqakit" +
                             "-MPnBjOJc6oyYNnsn8u_CWOwbVk9djHYwKWUFoxe" +
@@ -32,10 +28,16 @@ public class WebShopTests extends TestBase {
                             "stName=Qwerty&Email=qwerty%40www.co&Pass" +
                             "word=123456&ConfirmPassword=123456&regis" +
                             "ter-button=Register")
+                    .log().method()
+                    .log().uri()
+                    .log().headers()
+                    .log().body()
                     .when()
                     .post("/register")
                     .then()
-                    .statusCode(302);
+                    .statusCode(302)
+                    .log().status()
+                    .log().headers();
             get("/registerresult/1")
                     .then()
                     .statusCode(200)
@@ -54,10 +56,6 @@ public class WebShopTests extends TestBase {
     void addItemToShoppingCart() {
         step("Add an item with custom specs to the Shopping Cart by API", () -> {
             given()
-                    .log().method()
-                    .log().uri()
-                    .log().headers()
-                    .log().body()
                     .contentType("application/x-www-form-urlencoded; charset=UTF-8")
                     .body("product_attribute_74_5_26=82" +
                             "&product_attribute_74_6_27=85" +
@@ -67,6 +65,10 @@ public class WebShopTests extends TestBase {
                             "&product_attribute_74_8_29=90" +
                             "&addtocart_74.EnteredQuantity=2")
                     .cookie("Nop.customer=69589107-6373-41bd-891d-47fb44277adc;")
+                    .log().method()
+                    .log().uri()
+                    .log().headers()
+                    .log().body()
                     .when()
                     .post("/addproducttocart/details/74/1")
                     .then()
@@ -97,14 +99,14 @@ public class WebShopTests extends TestBase {
     void leaveFeedback() {
         step("Fill the 'Contact Us' form and send feedback by API", () -> {
             given()
-                    .log().method()
-                    .log().uri()
-                    .log().headers()
-                    .log().body()
                     .contentType("application/x-www-form-urlencoded")
                     .body("FullName=Alex+Qwerty&Email=qwerty%40www.co" +
                             "&Enquiry=Test+enquiry&send-email=Submit")
                     .cookie("Nop.customer=69589107-6373-41bd-891d-47fb44277adc;")
+                    .log().method()
+                    .log().uri()
+                    .log().headers()
+                    .log().body()
                     .when()
                     .post("/contactus")
                     .then()

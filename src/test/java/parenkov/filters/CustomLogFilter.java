@@ -2,13 +2,13 @@ package parenkov.filters;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 
-public class LogFilter {
+public class CustomLogFilter {
     private static final AllureRestAssured FILTER = new AllureRestAssured();
 
-    private LogFilter() {
+    private CustomLogFilter() {
     }
 
-    public static LogFilter logFilter() {
+    public static CustomLogFilter customLogFilter() {
         return InitLogFilter.logFilter;
     }
 
@@ -20,6 +20,6 @@ public class LogFilter {
     }
 
     private static class InitLogFilter {
-        private static final LogFilter logFilter = new LogFilter();
+        private static final CustomLogFilter logFilter = new CustomLogFilter();
     }
 }

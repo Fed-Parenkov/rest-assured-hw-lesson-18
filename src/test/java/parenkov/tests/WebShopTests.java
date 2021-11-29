@@ -1,6 +1,7 @@
 package parenkov.tests;
 
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.restassured.AllureRestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
@@ -20,6 +21,7 @@ public class WebShopTests extends TestBase {
     void registration() {
         step("Register user by API", () -> {
             given()
+                    .filter(new AllureRestAssured())
                     .contentType("application/x-www-form-urlencoded")
                     .body("__RequestVerificationToken=yharMk0UzLqakit" +
                             "-MPnBjOJc6oyYNnsn8u_CWOwbVk9djHYwKWUFoxe" +
@@ -56,6 +58,7 @@ public class WebShopTests extends TestBase {
     void addItemToShoppingCart() {
         step("Add an item with custom specs to the Shopping Cart by API", () -> {
             given()
+                    .filter(new AllureRestAssured())
                     .contentType("application/x-www-form-urlencoded; charset=UTF-8")
                     .body("product_attribute_74_5_26=82" +
                             "&product_attribute_74_6_27=85" +
@@ -99,6 +102,7 @@ public class WebShopTests extends TestBase {
     void leaveFeedback() {
         step("Fill the 'Contact Us' form and send feedback by API", () -> {
             given()
+                    .filter(new AllureRestAssured())
                     .contentType("application/x-www-form-urlencoded")
                     .body("FullName=Alex+Qwerty&Email=qwerty%40www.co" +
                             "&Enquiry=Test+enquiry&send-email=Submit")

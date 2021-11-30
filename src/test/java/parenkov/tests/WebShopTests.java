@@ -11,6 +11,7 @@ import static parenkov.filters.CustomLogFilter.customLogFilter;
 
 @Story("Demo Webshop")
 public class WebShopTests extends TestBase {
+
     @Test
     @DisplayName("User registration")
     void registration() {

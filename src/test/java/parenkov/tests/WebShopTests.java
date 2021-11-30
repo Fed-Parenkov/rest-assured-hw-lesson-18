@@ -1,6 +1,7 @@
 package parenkov.tests;
 
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
@@ -14,12 +15,12 @@ import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.is;
 import static parenkov.filters.CustomLogFilter.customLogFilter;
 
+@Story("Demo Webshop")
 public class WebShopTests extends TestBase {
-
     @Test
     @DisplayName("User registration")
     void registration() {
-        step("Register user by API", () -> {
+        step("Register new user by API", () -> {
             given()
                     .filter(customLogFilter().withCustomTemplates())
                     .contentType("application/x-www-form-urlencoded")

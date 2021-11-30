@@ -1,5 +1,6 @@
 package parenkov.tests;
 
+import com.github.javafaker.Faker;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,9 @@ import static parenkov.filters.CustomLogFilter.customLogFilter;
 
 @Story("Book Store")
 public class BookStoreTests extends TestBase {
+    Faker faker = new Faker();
+    String randomNum = faker.number().digits(4);
+
     @Test
     void userRegistration() {
         step("Register new user", () -> {
@@ -18,7 +22,7 @@ public class BookStoreTests extends TestBase {
                     .filter(customLogFilter().withCustomTemplates())
                     .accept("application/json")
                     .contentType("application/json")
-                    .body("{ \"userName\": \"test110\"," +
+                    .body("{ \"userName\": \"test" + randomNum + "\"," +
                             " \"password\": \"Hv4(c2!Jk\"}")
                     .log().method()
                     .log().uri()
@@ -31,7 +35,7 @@ public class BookStoreTests extends TestBase {
                     .log().status()
                     .log().headers()
                     .log().body()
-                    .body("username", is("test110"))
+                    .body("username", is("test" + randomNum))
                     .body("userID", notNullValue());
         });
     }

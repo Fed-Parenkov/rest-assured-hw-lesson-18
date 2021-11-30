@@ -49,7 +49,7 @@ public class WebShopTests extends TestBase {
         });
 
         step("Check that registration successed by UI", () -> {
-            open("/registerresult/1");
+            open("http://demowebshop.tricentis.com/registerresult/1");
             $(".result").shouldHave(Condition.text("Your registration completed"));
         });
     }
@@ -86,7 +86,7 @@ public class WebShopTests extends TestBase {
         });
 
         step("Set cookies to browser", () -> {
-            open("/Themes/DefaultClean/Content/images/logo.png");
+            open("http://demowebshop.tricentis.com");
             getWebDriver().manage().addCookie(
                     new Cookie("Nop.customer", "69589107-6373-41bd-891d-47fb44277adc"));
         });

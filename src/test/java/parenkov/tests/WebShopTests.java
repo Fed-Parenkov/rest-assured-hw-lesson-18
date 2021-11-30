@@ -1,17 +1,11 @@
 package parenkov.tests;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Cookie;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.is;
 import static parenkov.filters.CustomLogFilter.customLogFilter;
 
@@ -41,16 +35,6 @@ public class WebShopTests extends TestBase {
                     .statusCode(302)
                     .log().status()
                     .log().headers();
-            get("/registerresult/1")
-                    .then()
-                    .statusCode(200)
-                    .log().status()
-                    .log().headers();
-        });
-
-        step("Check that registration successed by UI", () -> {
-            open("http://demowebshop.tricentis.com/registerresult/1");
-            $(".result").shouldHave(Condition.text("Your registration completed"));
         });
     }
 
@@ -83,18 +67,6 @@ public class WebShopTests extends TestBase {
                     .body("success", is(true))
                     .body("message", is("The product has been added to your " +
                             "<a href=\"/cart\">shopping cart</a>"));
-        });
-
-        step("Set cookies to browser", () -> {
-            open("http://demowebshop.tricentis.com");
-            getWebDriver().manage().addCookie(
-                    new Cookie("Nop.customer", "69589107-6373-41bd-891d-47fb44277adc"));
-        });
-
-        step("Check that item has been added to Shopping Cart by UI", () -> {
-            open("/cart");
-            $(".cart-item-row").shouldBe(Condition.visible);
-            $(".product-name").shouldHave(Condition.text("Build your own expensive computer"));
         });
     }
 
